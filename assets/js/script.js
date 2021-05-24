@@ -4,7 +4,7 @@ var lose = document.querySelector(".lose");
 var timerElement = document.querySelector(".timer-count");
 var startButton = document.querySelector(".start-button");
 var chosenWord = "";
-var numBlanks = 1;
+var numBlanks = 0;
 var winCounter = 0;
 var loseCounter = 0;
 var isWin = false;
@@ -15,11 +15,12 @@ var timerCount;
 var lettersInChosenWord = [];
 
 var blanksLetters = [];
+
 // Array of words the user will guess
-
-
 var words = ["variable","array", "modulus", "object", "function", "string", "boolean"];
+
 // The init function is called when the page loads 
+init();
 
 function init() {
   getWins(); 
@@ -27,44 +28,62 @@ function init() {
 }
 
 function getWins(){
-  winCounter = localStorage.getItem("win");
+  winCounter = localStorage.getItem("winCounter");
+  win.innerText = winCounter
 }
 
 function getlosses(){
-  loseCounter = localStorage.getItem("lose");
+  loseCounter = localStorage.getItem("loseCounter");
+  lose.innerText = loseCounter; 
 }
 
-
-startButton.addEventListener("click", function() {
-  timer = 10;
-  countDown();
-  });
-
-
 function countDown(){
-
   timerCount = setInterval(function() {
     
   if (timer >= 0) {
-    timerElement.textContent = timer;
+    timerElement.innerText = timer;
     timerCount = timer--;
+    if (isWin) {
+      winAdd();
+      timer = 10;
+    }
     
     if (timerCount === 0) {
-      console.log(timerCount);
       loseCheck();
       timer = 10;
       } 
   }
   
-}, 200);
+}, 100);
+
 
 function loseCheck() {
-    if(numBlanks > 0) {
-      loseCounter++;
-      lose.textContent = loseCounter;
+  
+  if(numBlanks > 0) {
+    loseCounter++;
+    localStorage.setItem("loseCounter", loseCounter);
+    lose.innerText = loseCounter;
+    } else {
+      isWin = true;
+      winAdd();
       }
     } 
+
+function winAdd() {
+
+  if (isWin) {
+    winCounter++;
+    localStorage.setItem("winCounter", winCounter);
+    win.innerText = winCounter;
+    isWin = false;
+    }
+
+  }
+
 }
 
-
+startButton.addEventListener("click", function() {
+  timer = 10;
+  countDown();
+  });
 
