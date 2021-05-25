@@ -26,7 +26,7 @@ init();
 function init() {
   getWins(); 
   getlosses();
-  getAnswer();
+  
 }
 
 function getWins(){
@@ -48,7 +48,7 @@ function countDown(){
     if (isWin) {
       winAdd();
       timer = 10;
-    }
+      }
     
     if (timerCount === 0) {
       loseCheck();
@@ -56,12 +56,14 @@ function countDown(){
       } 
   }
 // set milliseconds here  
-}, 100);
+}, 1000);
+
+}
 
 function getAnswer() {
-  chosenWord = Math.floor(Math.random() * words.length);
+  let wordIndex = (Math.floor(Math.random() * words.length));
+  chosenWord = words[wordIndex];
   console.log(chosenWord);
-
 }
 
 function checkGuess() {
@@ -70,18 +72,10 @@ function checkGuess() {
   // answers and pushes it to the screen
   // if the guess doesn't result in any new letters added to the answer,
   // then a flag triggers the removal of the answer from the array
-  var chosenArray = Array.from(chosenWord);
-  var map1 = chosenArray.map((element) => {
-    for (guess.index = 0; index < guess.length; index++) {
-      if(element !== chosenArray.map.element) { 
-        map1.element = "_";
+    chosenArray = Array.from(chosenWord);
+    console.log(chosenArray);
       }
-    }
-   console.log(map1);
-  });
-}
-
-
+    
 function loseCheck() {
   
   if(numBlanks > 0) {
@@ -104,21 +98,19 @@ function winAdd() {
     isWin = false;
     getAnswer();
     }
-
   }
-
-
 
 startButton.addEventListener("click", function() {
   timer = 10;
   countDown();
+  getAnswer();
   });
 
 document.addEventListener("keydown", function() {
   guess.push(event.key);
   checkGuess();
   });
-}
+
   
 
 
