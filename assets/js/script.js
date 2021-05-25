@@ -10,6 +10,7 @@ var loseCounter = 0;
 var isWin = false;
 var timer;
 var timerCount;
+var guess = [];
 
 // Arrays used to create blanks and letters on screen
 var lettersInChosenWord = [];
@@ -25,6 +26,7 @@ init();
 function init() {
   getWins(); 
   getlosses();
+  getAnswer();
 }
 
 function getWins(){
@@ -53,8 +55,31 @@ function countDown(){
       timer = 10;
       } 
   }
-  
+// set milliseconds here  
 }, 100);
+
+function getAnswer() {
+  chosenWord = Math.floor(Math.random() * words.length);
+  console.log(chosenWord);
+
+}
+
+function checkGuess() {
+  // function that parses guessed letters against the answer
+  // builds an answer array that resembles the answer based on correct
+  // answers and pushes it to the screen
+  // if the guess doesn't result in any new letters added to the answer,
+  // then a flag triggers the removal of the answer from the array
+  var chosenArray = Array.from(chosenWord);
+  var map1 = chosenArray.map((element) => {
+    for (guess.index = 0; index < guess.length; index++) {
+      if(element !== chosenArray.map.element) { 
+        map1.element = "_";
+      }
+    }
+   console.log(map1);
+  });
+}
 
 
 function loseCheck() {
@@ -75,15 +100,25 @@ function winAdd() {
     winCounter++;
     localStorage.setItem("winCounter", winCounter);
     win.innerText = winCounter;
+    guess = [];
     isWin = false;
+    getAnswer();
     }
 
   }
 
-}
+
 
 startButton.addEventListener("click", function() {
   timer = 10;
   countDown();
   });
+
+document.addEventListener("keydown", function() {
+  guess.push(event.key);
+  checkGuess();
+  });
+}
+  
+
 
